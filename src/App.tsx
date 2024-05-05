@@ -1,22 +1,24 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import JobCard from "./components/JobCard.tsx";
 import styles from "./App.module.css"
-import {IJobData} from "./interfaces.ts";
+import { IJobData } from "./interfaces.ts";
 import Filters from "./components/Filters.tsx";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 function App() {
     // State
     const [jobs, setJobs] = useState<IJobData[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [, setLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true); // State to manage whether there are more items to load
 
     // Functions
-    const fetchJobs = async () => {
+    const fetchJobs = async (offset: number, limit: number) => {
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
 
         const body = JSON.stringify({
-            "limit": 10,
-            "offset": 0,
+            "limit": limit,
+            "offset": offset,
         })
 
         const requestOptions = {
@@ -28,32 +30,50 @@ function App() {
         return await fetch('https://api.weekday.technology/adhoc/getSampleJdJSON', requestOptions);
     }
 
-    // Lifecycle functions
-    useEffect(() => {
+    const handleFetching = () => {
         setLoading(true);
+        const offset = jobs.length;
 
-        fetchJobs().then(data => {
+        fetchJobs(offset, 10).then(data => {
             return data.json();
         }).then(data => {
-            setJobs(data.jdList);
+            if (data.jdList.length === 0) {
+                setHasMore(false);
+            } else {
+                setJobs(prevJobs => [...prevJobs, ...data.jdList]);
+            }
         }).catch(() => {
             console.error("Some error occurred while fetching data");
         }).finally(() => {
             setLoading(false);
         });
+    }
+
+    // Lifecycle functions
+    useEffect(() => {
+        handleFetching();
     }, []);
 
     return (
         <div className={styles.container}>
             <Filters />
-            <div className={styles.jobsContainer}>
-                {/*<pre>{JSON.stringify(jobs, null, 4)}</pre>*/}
-                {loading ? "Loading..." : jobs.map((individualJob) => {
-                    return <JobCard key={individualJob.jdUid} jobData={individualJob}/>
-                })}
+            <div>
+                <InfiniteScroll
+                    dataLength={jobs.length}
+                    next={handleFetching}
+                    hasMore={hasMore}
+                    loader={<p>Loading...</p>}
+                    endMessage={<p>No more data to load.</p>}
+                >
+                    <div className={styles.jobsContainer}>
+                        {jobs.map((individualJob, index) => (
+                            <JobCard key={index} jobData={individualJob}/>
+                        ))}
+                    </div>
+                </InfiniteScroll>
             </div>
         </div>
     )
 }
 
-export default App
+export default App;

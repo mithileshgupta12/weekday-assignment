@@ -8,6 +8,8 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 function App() {
     // State
     const [jobs, setJobs] = useState<IJobData[]>([]);
+    const [totalCount, setTotalCount] = useState<number>(0)
+    const [offset, setOffset] = useState(0);
     const [filteredJobs, setFilteredJobs] = useState<IJobData[]>([]);
     const [appFilters, setAppFilters] = useState<IFilters>({
         role: "",
@@ -95,6 +97,7 @@ function App() {
         setJobs((prevJobs) => {
             return [...prevJobs, ...data.jdList];
         });
+        setTotalCount(data.totalCount);
     }
 
     // Lifecycle functions
@@ -117,9 +120,10 @@ function App() {
                 <InfiniteScroll
                     dataLength={jobs.length}
                     next={() => {
-                        fetchJobs(0, 10)
+                        setOffset(offset + 1)
+                        fetchJobs(offset, 10)
                     }}
-                    hasMore={true}
+                    hasMore={jobs.length < totalCount}
                     loader={<p>Loading...</p>}
                     endMessage={<p>No more data to load.</p>}
                 >

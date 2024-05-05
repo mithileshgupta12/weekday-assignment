@@ -5,6 +5,7 @@ import zapIcon from "../assets/lightning.png"
 import manIcon from "../assets/man.png"
 import userIcon from "../assets/user.png"
 import sandClockIcon from "../assets/sand-clock.png"
+import {Box, Button} from "@mui/material";
 
 interface IProps {
     jobData: IJobData;
@@ -17,8 +18,9 @@ const JobCard: FC<IProps> = ({jobData}) => {
     }
 
     return (
-        <div className={styles.jobCardContainer}>
-            <p className={styles.postingTime}><span><img className={styles.sandClockIcon} width={10} src={sandClockIcon} alt="sand clock icon"/></span>Posted 10 days ago</p>
+        <p className={styles.jobCardContainer}>
+            <p className={styles.postingTime}><span><img className={styles.sandClockIcon} width={10} src={sandClockIcon}
+                                                         alt="sand clock icon"/></span>Posted 10 days ago</p>
             <div className={styles.companyHighlightsContainer}>
                 <img width={50} height={50} className={styles.companyLogo} src={jobData.logoUrl} alt={jobData.logoUrl}/>
                 <div className={styles.companyHighlights}>
@@ -34,18 +36,26 @@ const JobCard: FC<IProps> = ({jobData}) => {
             <p className={styles.genericText}>{jobData.jobDetailsFromCompany}</p>
             <p className={styles.minimumExperienceHeading}>Minimum Experience</p>
             <p className={styles.minimumExperienceText}>{jobData.minExp ? jobData.minExp : "Not Provided"} {jobData.minExp ? "years" : ""}</p>
-            <button onClick={() => {
-                openJobLink(jobData.jdLink)
-            }} className={styles.easyApplyButton}><span><img className={styles.zapIcon} width={15} src={zapIcon}
-                                                             alt="zap icon"/></span>Easy Apply
-            </button>
-            <button className={styles.unlockReferralAsksButton}><span>
-                <img className={styles.manIcon} width={15} src={manIcon} alt="man icon"/>
-                <img className={styles.userIcon} width={15} src={userIcon} alt="user icon"/>
-            </span>Unlock
-                referral asks
-            </button>
-        </div>
+            <Box mt={1}>
+                <Button onClick={() => {
+                    openJobLink(jobData.jdLink)
+                }} className={styles.easyApplyButton} fullWidth disableElevation variant="contained">
+                <span>
+                    <img className={styles.zapIcon} width={15} src={zapIcon} alt="zap icon"/>
+                </span>
+                    Easy Apply
+                </Button>
+            </Box>
+            <Box mt={1}>
+                <Button className={styles.unlockReferralAsksButton} fullWidth disableElevation variant="contained">
+                    <span>
+                        <img className={styles.manIcon} width={15} src={manIcon} alt="man icon"/>
+                        <img className={styles.userIcon} width={15} src={userIcon} alt="user icon"/>
+                    </span>
+                    Unlock referral asks
+                </Button>
+            </Box>
+        </p>
     );
 }
 

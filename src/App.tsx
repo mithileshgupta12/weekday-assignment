@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import JobCard from "./components/JobCard.tsx";
 import styles from "./App.module.css"
 import {IFilters, IJobData} from "./interfaces.ts";
@@ -30,71 +30,50 @@ function App() {
         });
     }
 
-    const handleFilters = () => {
-        setFilteredJobs(jobs);
+    const handleFilters = useCallback(() => {
+        let filteredJobsCopy = [...jobs];
 
-        if(appFilters.role) {
-            setFilteredJobs(jobs.filter(job => job.jobRole === appFilters.role))
+        if (appFilters.role) {
+            filteredJobsCopy = filteredJobsCopy.filter(job => job.jobRole === appFilters.role);
         }
 
-        if(appFilters.isRemote === "yes") {
-            setFilteredJobs(jobs.filter(job => job.location === "remote"))
-        }else if(appFilters.isRemote === "no") {
-            setFilteredJobs(jobs.filter(job => job.location !== "remote"))
+        if (appFilters.isRemote === "yes") {
+            filteredJobsCopy = filteredJobsCopy.filter(job => job.location === "remote");
+        } else if (appFilters.isRemote === "no") {
+            filteredJobsCopy = filteredJobsCopy.filter(job => job.location !== "remote");
         }
 
-        if(appFilters.companyName) {
-            setFilteredJobs(jobs.filter(job => job.companyName.toLowerCase() === appFilters.companyName.toLowerCase()))
+        if (appFilters.companyName) {
+            filteredJobsCopy = filteredJobsCopy.filter(job => job.companyName.toLowerCase() === appFilters.companyName.toLowerCase());
         }
 
-        if(appFilters.minBasePay === "1") {
-            setFilteredJobs(jobs.filter((job) => {
-                if(job.minJdSalary) {
-                    return job.minJdSalary >= 0 && job.minJdSalary <= 50;
-                }
-            }))
+        if (appFilters.minBasePay === "1") {
+            filteredJobsCopy = filteredJobsCopy.filter(job => job.minJdSalary != null && job.minJdSalary >= 0 && job.minJdSalary <= 50);
         }
 
-        if(appFilters.minBasePay === "2") {
-            setFilteredJobs(jobs.filter((job) => {
-                if(job.minJdSalary) {
-                    return job.minJdSalary >= 50 && job.minJdSalary <= 100;
-                }
-            }))
+        if (appFilters.minBasePay === "2") {
+            filteredJobsCopy = filteredJobsCopy.filter(job => job.minJdSalary != null && job.minJdSalary >= 50 && job.minJdSalary <= 100);
         }
 
-        if(appFilters.minBasePay === "3") {
-            setFilteredJobs(jobs.filter((job) => {
-                if(job.minJdSalary) {
-                    return job.minJdSalary >= 100;
-                }
-            }))
+        if (appFilters.minBasePay === "3") {
+            filteredJobsCopy = filteredJobsCopy.filter(job => job.minJdSalary != null && job.minJdSalary >= 100);
         }
 
-        if(appFilters.experience) {
-            if(appFilters.experience === "1") {
-                setFilteredJobs(jobs.filter((job) => {
-                    if(job.minExp) {
-                        return job.minExp >= 0 && job.minExp <= 3;
-                    }
-                }))
+        if (appFilters.experience) {
+            if (appFilters.experience === "1") {
+                filteredJobsCopy = filteredJobsCopy.filter(job => job.minExp != null && job.minExp >= 0 && job.minExp <= 3);
             }
-            if(appFilters.experience === "2") {
-                setFilteredJobs(jobs.filter((job) => {
-                    if(job.minExp) {
-                        return job.minExp >= 3 && job.minExp <= 5;
-                    }
-                }))
+            if (appFilters.experience === "2") {
+                filteredJobsCopy = filteredJobsCopy.filter(job => job.minExp != null && job.minExp >= 3 && job.minExp <= 5);
             }
-            if(appFilters.experience === "3") {
-                setFilteredJobs(jobs.filter((job) => {
-                    if(job.minExp) {
-                        return job.minExp > 5;
-                    }
-                }))
+            if (appFilters.experience === "3") {
+                filteredJobsCopy = filteredJobsCopy.filter(job => job.minExp != null && job.minExp > 5);
             }
         }
-    }
+
+        setFilteredJobs(filteredJobsCopy);
+    }, [appFilters, jobs]);
+
 
     const fetchJobs = async (offset: number, limit: number) => {
         const headers = new Headers();

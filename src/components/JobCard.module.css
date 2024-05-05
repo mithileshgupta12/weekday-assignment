@@ -3,6 +3,7 @@
     border: solid 1px #eee;
     border-radius: 15px;
     padding: 1rem;
+    overflow: auto;
 }
 
 .postingTime {
@@ -22,4 +23,53 @@
     margin-left: 0.5rem;
     font-size: 0.7rem;
     color: #222;
+}
+
+.aboutCompanyText {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    color: #222;
+}
+
+.aboutUsText {
+    font-size: 0.7rem;
+    color: #222;
+    font-weight: 500;
+}
+
+.genericText {
+    font-size: 0.7rem;
+    margin-top: 0.5rem;
+    color: #222;
+}
+
+.minimumExperienceHeading {
+    font-size: 0.7rem;
+    margin-top: 0.5rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.minimumExperienceText {
+    font-size: 0.7rem;
+    color: #555;
+}
+
+.easyApplyButton {
+    width: 100%;
+    margin-top: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 0;
+    background: #54EFC3;
+}
+
+.unlockReferralAsksButton {
+    width: 100%;
+    margin-top: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 0;
+    background: #4943DA;
+    color: white;
 }

@@ -12,3 +12,12 @@ export interface IJobData {
     maxExp: number | null;
     jdLink: string;
 }
+
+export interface IFilters {
+    role: string;
+    numEmployees: string;
+    experience: string;
+    isRemote: string;
+    minBasePay: string;
+    companyName: string;
+}

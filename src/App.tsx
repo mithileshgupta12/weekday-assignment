@@ -1,17 +1,53 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import JobCard from "./components/JobCard.tsx";
 import styles from "./App.module.css"
-import { IJobData } from "./interfaces.ts";
+import {IFilters, IJobData} from "./interfaces.ts";
 import Filters from "./components/Filters.tsx";
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 function App() {
     // State
     const [jobs, setJobs] = useState<IJobData[]>([]);
-    const [, setLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true); // State to manage whether there are more items to load
+    const [filteredJobs, setFilteredJobs] = useState<IJobData[]>([]);
+    const [appFilters, setAppFilters] = useState<IFilters>({
+        role: "",
+        companyName: "",
+        experience: "",
+        isRemote: "",
+        minBasePay: "",
+        numEmployees: ""
+    });
 
     // Functions
+    const setFilters = (filters: IFilters) => {
+        setAppFilters({
+            role: filters.role,
+            companyName: filters.companyName,
+            experience: filters.experience,
+            isRemote: filters.isRemote,
+            minBasePay: filters.minBasePay,
+            numEmployees: filters.numEmployees,
+        });
+    }
+
+    const handleFilters = () => {
+        setFilteredJobs(jobs);
+
+        if(appFilters.role) {
+            setFilteredJobs(jobs.filter(job => job.jobRole === appFilters.role))
+        }
+
+        if(appFilters.isRemote === "yes") {
+            setFilteredJobs(jobs.filter(job => job.location === "remote"))
+        }else if(appFilters.isRemote === "no") {
+            setFilteredJobs(jobs.filter(job => job.location !== "remote"))
+        }
+
+        if(appFilters.companyName) {
+            setFilteredJobs(jobs.filter(job => job.companyName.toLowerCase() === appFilters.companyName.toLowerCase()))
+        }
+    }
+
     const fetchJobs = async (offset: number, limit: number) => {
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
@@ -27,46 +63,41 @@ function App() {
             body,
         }
 
-        return await fetch('https://api.weekday.technology/adhoc/getSampleJdJSON', requestOptions);
-    }
-
-    const handleFetching = () => {
-        setLoading(true);
-        const offset = jobs.length;
-
-        fetchJobs(offset, 10).then(data => {
-            return data.json();
-        }).then(data => {
-            if (data.jdList.length === 0) {
-                setHasMore(false);
-            } else {
-                setJobs(prevJobs => [...prevJobs, ...data.jdList]);
-            }
-        }).catch(() => {
-            console.error("Some error occurred while fetching data");
-        }).finally(() => {
-            setLoading(false);
+        const response =  await fetch('https://api.weekday.technology/adhoc/getSampleJdJSON', requestOptions);
+        const data = await response.json();
+        setJobs((prevJobs) => {
+            return [...prevJobs, ...data.jdList];
         });
     }
 
     // Lifecycle functions
     useEffect(() => {
-        handleFetching();
+        fetchJobs(0, 10);
     }, []);
+
+    useEffect(() => {
+       handleFilters();
+    }, [jobs]);
+
+    useEffect(() => {
+        handleFilters();
+    }, [appFilters]);
 
     return (
         <div className={styles.container}>
-            <Filters />
+            <Filters getFilters={setFilters}/>
             <div>
                 <InfiniteScroll
                     dataLength={jobs.length}
-                    next={handleFetching}
-                    hasMore={hasMore}
+                    next={() => {
+                        fetchJobs(0, 10)
+                    }}
+                    hasMore={true}
                     loader={<p>Loading...</p>}
                     endMessage={<p>No more data to load.</p>}
                 >
                     <div className={styles.jobsContainer}>
-                        {jobs.map((individualJob, index) => (
+                        {filteredJobs.map((individualJob, index) => (
                             <JobCard key={index} jobData={individualJob}/>
                         ))}
                     </div>

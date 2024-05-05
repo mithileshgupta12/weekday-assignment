@@ -1,43 +1,57 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import JobCard from "./components/JobCard.tsx";
 import styles from "./App.module.css"
+import {IJobData} from "./interfaces.ts";
 
 function App() {
-  // Functions
-  const fetchJobs = async () => {
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
+    // State
+    const [jobs, setJobs] = useState<IJobData[]>([]);
+    const [loading, setLoading] = useState(false);
 
-    const body = JSON.stringify({
-      "limit": 10,
-      "offset": 0,
-    })
+    // Functions
+    const fetchJobs = async () => {
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
 
-    const requestOptions = {
-      method: "POST",
-      headers,
-      body,
+        const body = JSON.stringify({
+            "limit": 10,
+            "offset": 0,
+        })
+
+        const requestOptions = {
+            method: "POST",
+            headers,
+            body,
+        }
+
+        return await fetch('https://api.weekday.technology/adhoc/getSampleJdJSON', requestOptions);
     }
 
-    return await fetch('https://api.weekday.technology/adhoc/getSampleJdJSON', requestOptions);
-  }
+    // Lifecycle functions
+    useEffect(() => {
+        setLoading(true);
 
-  // Lifecycle functions
-  useEffect(() => {
-    fetchJobs().then(jobs => {
-      return jobs.json();
-    }).then(jobs => {
-      console.log(jobs);
-    });
-  }, []);
+        fetchJobs().then(data => {
+            return data.json();
+        }).then(data => {
+            setJobs(data.jdList);
+        }).catch(() => {
+            console.error("Some error occurred while fetching data");
+        }).finally(() => {
+            setLoading(false);
+        });
+    }, []);
 
-  return (
-    <div>
-      <div className={styles.jobsContainer}>
-        <JobCard />
-      </div>
-    </div>
-  )
+    return (
+        <div>
+            <div className={styles.jobsContainer}>
+                {/*<pre>{JSON.stringify(jobs, null, 4)}</pre>*/}
+                {loading ? "Loading..." : jobs.map((individualJob) => {
+                    return <JobCard key={individualJob.jdUid} jobData={individualJob}/>
+                })}
+            </div>
+        </div>
+    )
 }
 
 export default App

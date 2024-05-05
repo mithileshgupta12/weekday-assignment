@@ -1,0 +1,25 @@
+.jobCardContainer {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    border: solid 1px #eee;
+    border-radius: 15px;
+    padding: 1rem;
+}
+
+.postingTime {
+    font-size: 0.5rem;
+    border: solid 1px #eee;
+    display: inline-block;
+    padding: 0.3rem 1rem;
+    border-radius: 15px;
+}
+
+.companyHighlightsContainer {
+    margin-top: 1rem;
+    display: flex;
+}
+
+.companyHighlights {
+    margin-left: 0.5rem;
+    font-size: 0.7rem;
+    color: #222;
+}

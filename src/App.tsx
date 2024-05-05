@@ -1,4 +1,6 @@
 import {useEffect} from "react";
+import JobCard from "./components/JobCard.tsx";
+import styles from "./App.module.css"
 
 function App() {
   // Functions
@@ -30,8 +32,11 @@ function App() {
   }, []);
 
   return (
-    <>
-    </>
+    <div>
+      <div className={styles.jobsContainer}>
+        <JobCard />
+      </div>
+    </div>
   )
 }
 

@@ -10,4 +10,5 @@ export interface IJobData {
     jobDetailsFromCompany: string;
     minExp: number | null;
     maxExp: number | null;
+    jdLink: string;
 }

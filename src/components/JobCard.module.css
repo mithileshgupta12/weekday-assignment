@@ -62,6 +62,9 @@
     border-radius: 5px;
     padding: 0.5rem 0;
     background: #54EFC3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .unlockReferralAsksButton {
@@ -72,4 +75,23 @@
     padding: 0.5rem 0;
     background: #4943DA;
     color: white;
+}
+
+.zapIcon {
+    margin-right: 0.5rem;
+    transform: translateY(20%);
+}
+
+.manIcon {
+    margin-right: 0.5rem;
+    transform: translateY(15%);
+}
+
+.userIcon {
+    margin-right: 0.5rem;
+}
+
+.sandClockIcon {
+    margin-right: 0.2rem;
+    transform: translateY(20%);
 }

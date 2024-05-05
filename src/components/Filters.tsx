@@ -21,7 +21,7 @@ const Filters: FC<IProps> = ({getFilters}) => {
 
     return (
         <Grid container spacing={2}>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={6} md={4}>
                 <FormControl sx={{m: 1, minWidth: "100%"}}>
                     <InputLabel id="roles-select-label">Roles</InputLabel>
                     <Select
@@ -40,7 +40,7 @@ const Filters: FC<IProps> = ({getFilters}) => {
                     </Select>
                 </FormControl>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={6} md={4}>
                 <FormControl sx={{m: 1, minWidth: "100%"}}>
                     <InputLabel id="employees-select-label">Number of Employees</InputLabel>
                     <Select
@@ -56,7 +56,7 @@ const Filters: FC<IProps> = ({getFilters}) => {
                     </Select>
                 </FormControl>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={6} md={4}>
                 <FormControl sx={{m: 1, minWidth: "100%"}}>
                     <InputLabel id="experience-select-label">Experience</InputLabel>
                     <Select
@@ -73,7 +73,7 @@ const Filters: FC<IProps> = ({getFilters}) => {
                     </Select>
                 </FormControl>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={6} md={4}>
                 <FormControl sx={{m: 1, minWidth: "100%"}}>
                     <InputLabel id="remote-select-label">Remote</InputLabel>
                     <Select
@@ -89,7 +89,7 @@ const Filters: FC<IProps> = ({getFilters}) => {
                     </Select>
                 </FormControl>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={6} md={4}>
                 <FormControl sx={{m: 1, minWidth: "100%"}}>
                     <InputLabel id="base-pay-select-label">Minimum Base Pay Salary</InputLabel>
                     <Select
@@ -106,7 +106,7 @@ const Filters: FC<IProps> = ({getFilters}) => {
                     </Select>
                 </FormControl>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={6} md={4}>
                 <FormControl sx={{m: 1, minWidth: "100%"}}>
                     <TextField
                         id="company-name-input"

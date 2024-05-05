@@ -4,6 +4,7 @@ import styles from "./App.module.css"
 import {IFilters, IJobData} from "./interfaces.ts";
 import Filters from "./components/Filters.tsx";
 import InfiniteScroll from 'react-infinite-scroll-component';
+import {Grid} from "@mui/material";
 
 function App() {
     // State
@@ -116,7 +117,7 @@ function App() {
     return (
         <div className={styles.container}>
             <Filters getFilters={setFilters}/>
-            <div>
+            <div className={styles.secondContainer}>
                 <InfiniteScroll
                     dataLength={jobs.length}
                     next={() => {
@@ -127,11 +128,13 @@ function App() {
                     loader={<p>Loading...</p>}
                     endMessage={<p>No more data to load.</p>}
                 >
-                    <div className={styles.jobsContainer}>
+                    <Grid container spacing={3}>
                         {filteredJobs.map((individualJob, index) => (
-                            <JobCard key={index} jobData={individualJob}/>
+                            <Grid key={index} item xs={12} sm={6} md={4}>
+                                <JobCard key={index} jobData={individualJob}/>
+                            </Grid>
                         ))}
-                    </div>
+                    </Grid>
                 </InfiniteScroll>
             </div>
         </div>

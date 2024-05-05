@@ -18,7 +18,7 @@ const JobCard: FC<IProps> = ({jobData}) => {
     }
 
     return (
-        <p className={styles.jobCardContainer}>
+        <div className={styles.jobCardContainer}>
             <p className={styles.postingTime}><span><img className={styles.sandClockIcon} width={10} src={sandClockIcon}
                                                          alt="sand clock icon"/></span>Posted 10 days ago</p>
             <div className={styles.companyHighlightsContainer}>
@@ -55,7 +55,7 @@ const JobCard: FC<IProps> = ({jobData}) => {
                     Unlock referral asks
                 </Button>
             </Box>
-        </p>
+        </div>
     );
 }
 

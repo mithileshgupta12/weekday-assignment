@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import JobCard from "./components/JobCard.tsx";
 import styles from "./App.module.css"
 import {IJobData} from "./interfaces.ts";
+import Filters from "./components/Filters.tsx";
 
 function App() {
     // State
@@ -43,7 +44,8 @@ function App() {
     }, []);
 
     return (
-        <div>
+        <div className={styles.container}>
+            <Filters />
             <div className={styles.jobsContainer}>
                 {/*<pre>{JSON.stringify(jobs, null, 4)}</pre>*/}
                 {loading ? "Loading..." : jobs.map((individualJob) => {

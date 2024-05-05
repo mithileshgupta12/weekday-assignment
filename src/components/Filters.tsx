@@ -66,9 +66,10 @@ const Filters: FC<IProps> = ({getFilters}) => {
                         label="Experience"
                         onChange={(event) => setExperience(event.target.value)}
                     >
-                        <MenuItem value={1}>One</MenuItem>
-                        <MenuItem value={2}>Two</MenuItem>
-                        <MenuItem value={3}>Three</MenuItem>
+                        <MenuItem value={""}>Select</MenuItem>
+                        <MenuItem value={"1"}>0 - 3</MenuItem>
+                        <MenuItem value={"2"}>3 - 5</MenuItem>
+                        <MenuItem value={"3"}>More than 5</MenuItem>
                     </Select>
                 </FormControl>
             </Grid>
@@ -98,9 +99,10 @@ const Filters: FC<IProps> = ({getFilters}) => {
                         label="Minimum Base Pay Salary"
                         onChange={(event) => setMinBasePay(event.target.value)}
                     >
-                        <MenuItem value={10000}>$10,000</MenuItem>
-                        <MenuItem value={20000}>$20,000</MenuItem>
-                        <MenuItem value={30000}>$30,000</MenuItem>
+                        <MenuItem value="">Select</MenuItem>
+                        <MenuItem value={"1"}>$0 - $50,000</MenuItem>
+                        <MenuItem value={"2"}>$50,000 - $100,000</MenuItem>
+                        <MenuItem value={"3"}>{">= $100,000"}</MenuItem>
                     </Select>
                 </FormControl>
             </Grid>

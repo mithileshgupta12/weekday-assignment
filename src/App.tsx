@@ -46,6 +46,54 @@ function App() {
         if(appFilters.companyName) {
             setFilteredJobs(jobs.filter(job => job.companyName.toLowerCase() === appFilters.companyName.toLowerCase()))
         }
+
+        if(appFilters.minBasePay === "1") {
+            setFilteredJobs(jobs.filter((job) => {
+                if(job.minJdSalary) {
+                    return job.minJdSalary >= 0 && job.minJdSalary <= 50;
+                }
+            }))
+        }
+
+        if(appFilters.minBasePay === "2") {
+            setFilteredJobs(jobs.filter((job) => {
+                if(job.minJdSalary) {
+                    return job.minJdSalary >= 50 && job.minJdSalary <= 100;
+                }
+            }))
+        }
+
+        if(appFilters.minBasePay === "3") {
+            setFilteredJobs(jobs.filter((job) => {
+                if(job.minJdSalary) {
+                    return job.minJdSalary >= 100;
+                }
+            }))
+        }
+
+        if(appFilters.experience) {
+            if(appFilters.experience === "1") {
+                setFilteredJobs(jobs.filter((job) => {
+                    if(job.minExp) {
+                        return job.minExp >= 0 && job.minExp <= 3;
+                    }
+                }))
+            }
+            if(appFilters.experience === "2") {
+                setFilteredJobs(jobs.filter((job) => {
+                    if(job.minExp) {
+                        return job.minExp >= 3 && job.minExp <= 5;
+                    }
+                }))
+            }
+            if(appFilters.experience === "3") {
+                setFilteredJobs(jobs.filter((job) => {
+                    if(job.minExp) {
+                        return job.minExp > 5;
+                    }
+                }))
+            }
+        }
     }
 
     const fetchJobs = async (offset: number, limit: number) => {
